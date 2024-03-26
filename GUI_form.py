@@ -10,6 +10,7 @@ class Form:
         #main window design
         self.main_window.geometry('350x550')
         self.main_window.title('Responsive Registration Form')
+        self.main_window.configure(padx=30, pady=20)
 
 
         #create frames
@@ -34,7 +35,7 @@ class Form:
         #USER INPUT (frames 2,3,4,5)
         #email (frame 2)
         self.email_var = tkinter.StringVar()
-        self.email = tkinter.Entry(self.frame2, textvariable=self.email_var, width=36, font=('Arial', 10))
+        self.email = tkinter.Entry(self.frame2, textvariable=self.email_var, width=40, font=('Arial', 10))
         self.email_var.set('Email')  # Set placeholder text
         self.email.configure(fg='grey')  # Set placeholder text color
         
@@ -44,7 +45,7 @@ class Form:
 
         #Password (frame 3)
         self.password_var = tkinter.StringVar()
-        self.password = tkinter.Entry(self.frame3, textvariable=self.password_var, width=36, font=('Arial', 10), show='*')
+        self.password = tkinter.Entry(self.frame3, textvariable=self.password_var, width=40, font=('Arial', 10))
         self.password_var.set('Password')
         self.password.configure(fg='grey')
         
@@ -54,7 +55,7 @@ class Form:
 
         #Re-type Password (frame 4)
         self.retype_var = tkinter.StringVar()
-        self.retype = tkinter.Entry(self.frame4, textvariable=self.retype_var, width=36, font=('Arial', 10))
+        self.retype = tkinter.Entry(self.frame4, textvariable=self.retype_var, width=40, font=('Arial', 10))
         self.retype_var.set('Re-type Password')  
         self.retype.configure(fg='grey')  
         
@@ -66,8 +67,8 @@ class Form:
         self.first_name_var = tkinter.StringVar()
         self.last_name_var = tkinter.StringVar()
         
-        self.first_name = tkinter.Entry(self.frame5, textvariable=self.first_name_var, width=18, font=('Arial', 10))
-        self.last_name = tkinter.Entry(self.frame5, textvariable=self.last_name_var, width=18, font=('Arial', 10))
+        self.first_name = tkinter.Entry(self.frame5, textvariable=self.first_name_var, width=20, font=('Arial', 10))
+        self.last_name = tkinter.Entry(self.frame5, textvariable=self.last_name_var, width=20, font=('Arial', 10))
         
         self.first_name_var.set('First Name')  
         self.last_name_var.set('Last Name')  
@@ -100,21 +101,23 @@ class Form:
 
         #DROP DOWN BOX - country (frame 7)
 
-        # self.options = [
-        #     "United States of America",
-        #     "Brazil",
-        #     "Kenya"
-        #     "Mexico",
-        #     "Norway"
-        # ]
+        self.options = [
+            "United States of America",
+            "Brazil",
+            "Kenya"
+            "Mexico",
+            "Norway"
+        ]
 
-        # self.selected = tkinter.StringVar()
-        # self.drop = tkinter.OptionMenu(self.frame7, self.options, textvariable=self.selected, width=36, font=('Arial', 10))
-        # self.selected.set('Country')  # Set placeholder text
-        # self.drop.configure(fg='grey')  # Set placeholder text color
+        self.selected = tkinter.StringVar()
+        self.selected.set('Select a country')    #set a placeholder
+        self.drop = tkinter.OptionMenu(self.frame7, self.selected, *self.options)
+        self.drop.configure(width=40, font=('Arial', 8), fg='grey')
+        self.drop['menu'].configure(font=('Arial', 8))
 
-        # self.frame8.pack(pady=10)
-        # self.drop.pack()
+
+        self.frame7.pack(pady=10)
+        self.drop.pack(side='left')
 
 
 
@@ -139,7 +142,7 @@ class Form:
 
 
         #REGISTER BUTTON (frame 9) - validate
-        self.register = tkinter.Button(self.frame9, text='Register', width=36, bg='#FFB81C', fg='white', command=self.validate)
+        self.register = tkinter.Button(self.frame9, text='Register', width=40, bg='#FFB81C', fg='white', command=self.validate)
 
         self.frame9.pack(pady=10)
         self.register.pack()
@@ -149,13 +152,13 @@ class Form:
 
     def validate(self):
 
-        message = 'You must select a gender.'
+        message = ''
         #gender - one is selected
-        if self.radio_var.get() != 1 or 2:
-            message
+        if self.radio_var.get() not in [1, 2]:
+            message += '\nYou must select a gender.'
             
         #check boxes - both need to be checked
-        if self.cb1_var.get() or self.cb2_var.get() == 0:
+        if self.cb1_var.get() ==0 or self.cb2_var.get() == 0:
             message += '\nYou must check both boxes.'
 
 
@@ -164,10 +167,26 @@ class Form:
             message += '\nYour passwords do no match.'
 
         #password hidden - only has ***
-        if self.password.get() and self.retype.get() != '*':
+        if self.password.get() == '***' or self.retype.get() == '***':
             message += '\nPassword is not hidden.'
 
-        tkinter.messagebox.showinfo('ERRORS:', message)
+        if message:
+            tkinter.messagebox.showinfo('ERRORS:', message)
+        else:
+            tkinter.messagebox.showinfo('SUCCESS', 'You have registered!')
+
+    # Function to handle placeholder behavior for Entry widgets
+    def on_entry_click(self, event, entry_widget):
+        if entry_widget.get() == entry_widget.placeholder:
+            entry_widget.delete(0, "end")
+            entry_widget.configure(fg='black')  # Change text color to black
+
+        # Bind the entry fields to the placeholder behavior function
+        self.email.bind("<FocusIn>", lambda event: on_entry_click(event, self.email))
+        self.password.bind("<FocusIn>", lambda event: on_entry_click(event, self.password))
+        self.retype.bind("<FocusIn>", lambda event: on_entry_click(event, self.retype))
+        self.first_name.bind("<FocusIn>", lambda event: on_entry_click(event, self.first_name))
+        self.last_name.bind("<FocusIn>", lambda event: on_entry_click(event, self.last_name))
 
         
 
