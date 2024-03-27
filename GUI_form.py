@@ -26,62 +26,99 @@ class Form:
         
 
         #main title (frame 1)
-        self.title = tkinter.Label(self.frame1, text='Responsive Registration \n Form', font=('Arial', 12, 'bold'))
+        self.title = tkinter.Label(self.frame1, text='Responsive Registration \n Form', 
+                                   fg='royalblue', font=('Arial', 12, 'bold'))
         
         self.frame1.pack(pady=10)
         self.title.pack()
 
 
-        #USER INPUT (frames 2,3,4,5)
+        #USER INPUT (frames 2,3,4,5) --------------------------------------------------------------------------------------------------------
         #email (frame 2)
         self.email_var = tkinter.StringVar()
         self.email = tkinter.Entry(self.frame2, textvariable=self.email_var, width=40, font=('Arial', 10))
         self.email_var.set('Email')  # Set placeholder text
         self.email.configure(fg='grey')  # Set placeholder text color
         
+  
+        #creating icon (mail)
+        self.email_icon = tkinter.PhotoImage(file='mail.png')
+        self.email_icon = self.email_icon.subsample(9, 9)  # Resizing the image to 1/9 of its original size
+        self.email_icon_label = tkinter.Label(self.frame2, image=self.email_icon)
+
+
         self.frame2.pack(pady=10)
+        self.email_icon_label.pack(side='left')
         self.email.pack()
 
 
+
         #Password (frame 3)
-        self.password_var = tkinter.StringVar()
-        self.password = tkinter.Entry(self.frame3, textvariable=self.password_var, width=40, font=('Arial', 10))
-        self.password_var.set('Password')
-        self.password.configure(fg='grey')
+        self.password = tkinter.Label(self.frame3, text='Password:')
+        self.password_entry = tkinter.Entry(self.frame3, width=40, show='*')
+
+        #creating icon 
+        self.lock_icon = tkinter.PhotoImage(file='lock.png')
+        self.lock_icon = self.lock_icon.subsample(9, 9)  # Resizing the image to 1/9 of its original size
+        self.lock_icon_label = tkinter.Label(self.frame3, image=self.lock_icon)
+
         
         self.frame3.pack(pady=10)
-        self.password.pack()
+        self.lock_icon_label.pack(side='left')
+        self.password.pack(side='left')
+        self.password_entry.pack()
 
 
         #Re-type Password (frame 4)
-        self.retype_var = tkinter.StringVar()
-        self.retype = tkinter.Entry(self.frame4, textvariable=self.retype_var, width=40, font=('Arial', 10))
-        self.retype_var.set('Re-type Password')  
-        self.retype.configure(fg='grey')  
+        self.retype = tkinter.Label(self.frame4, text='Re-type Password:')
+        self.retype_entry = tkinter.Entry(self.frame4, width=40, show='*') 
+
+        #create icon (lock)
+        self.lock_icon1 = tkinter.PhotoImage(file='lock2.png')
+        self.lock_icon1 = self.lock_icon1.subsample(9, 9)  # Resizing the image to 1/9 of its original size
+        self.lock_icon1_label = tkinter.Label(self.frame4, image=self.lock_icon1)
+
         
         self.frame4.pack(pady=10)
-        self.retype.pack()
+        self.lock_icon1_label.pack(side='left')
+        self.retype.pack(side='left')
+        self.retype_entry.pack()
 
 
         #First Name & Last Name (frame 5)
         self.first_name_var = tkinter.StringVar()
         self.last_name_var = tkinter.StringVar()
         
-        self.first_name = tkinter.Entry(self.frame5, textvariable=self.first_name_var, width=20, font=('Arial', 10))
-        self.last_name = tkinter.Entry(self.frame5, textvariable=self.last_name_var, width=20, font=('Arial', 10))
+        self.first_name = tkinter.Entry(self.frame5, textvariable=self.first_name_var, 
+                                        width=15, font=('Arial', 10))
+        self.last_name = tkinter.Entry(self.frame5, textvariable=self.last_name_var, 
+                                       width=20, font=('Arial', 10))
         
         self.first_name_var.set('First Name')  
         self.last_name_var.set('Last Name')  
         
         self.first_name.configure(fg='grey')  
-        self.last_name.configure(fg='grey')  
+        self.last_name.configure(fg='grey') 
+
+        # Creating icon (first name)
+        self.first_icon = tkinter.PhotoImage(file='person.png')
+        self.first_icon = self.first_icon.subsample(9, 9)  # Resizing the image to 1/9 of its original size
+        self.first_icon_label = tkinter.Label(self.frame5, image=self.first_icon)
+
+         # Creating icon (last name)
+        self.last_icon = tkinter.PhotoImage(file='person2.png')
+        self.last_icon = self.last_icon.subsample(9, 9)  # Resizing the image to 1/9 of its original size
+        self.last_icon_label = tkinter.Label(self.frame5, image=self.last_icon)
+
 
         self.frame5.pack(pady=10)
+        self.first_icon_label.pack(side='left')
         self.first_name.pack(side='left')
+        self.last_icon_label.pack(side='left')
         self.last_name.pack(side='left')
 
 
-        #RADIO BOXES - gender (frame 6)
+        #RADIO BOXES - gender (frame 6) ----------------------------------------------------------------------------------------------------
         self.radio_var = tkinter.IntVar()
 
         self.male = tkinter.Radiobutton(self.frame6,
@@ -99,12 +136,12 @@ class Form:
         self.female.pack(side='left')
 
 
-        #DROP DOWN BOX - country (frame 7)
+        #DROP DOWN BOX - country (frame 7) --------------------------------------------------------------------------------------------------
 
         self.options = [
             "United States of America",
             "Brazil",
-            "Kenya"
+            "Kenya",
             "Mexico",
             "Norway"
         ]
@@ -112,7 +149,7 @@ class Form:
         self.selected = tkinter.StringVar()
         self.selected.set('Select a country')    #set a placeholder
         self.drop = tkinter.OptionMenu(self.frame7, self.selected, *self.options)
-        self.drop.configure(width=40, font=('Arial', 8), fg='grey')
+        self.drop.configure(width=40, font=('Arial', 8, 'bold'), fg='white', bg='royalblue')
         self.drop['menu'].configure(font=('Arial', 8))
 
 
@@ -121,7 +158,7 @@ class Form:
 
 
 
-        #CHECK BOXES (frame 8) - need to check both
+        #CHECK BOXES (frame 8) - need to check both -----------------------------------------------------------------------------------------
         self.cb1_var = tkinter.IntVar()
         self.cb2_var = tkinter.IntVar()
 
@@ -141,8 +178,10 @@ class Form:
         self.cb2.pack(anchor='w')
 
 
-        #REGISTER BUTTON (frame 9) - validate
-        self.register = tkinter.Button(self.frame9, text='Register', width=40, bg='#FFB81C', fg='white', command=self.validate)
+        #REGISTER BUTTON (frame 9) - validate -----------------------------------------------------------------------------------------------
+        self.register = tkinter.Button(self.frame9, text='Register', width=40, 
+                                       font=('Arial', 8, 'bold'), fg='white', 
+                                       bg='royalblue', command=self.validate)
 
         self.frame9.pack(pady=10)
         self.register.pack()
@@ -163,11 +202,11 @@ class Form:
 
 
         #password inputs - they both match
-        if self.password.get() != self.retype.get():
+        if self.password_entry.get() != self.retype_entry.get():
             message += '\nYour passwords do no match.'
 
         #password hidden - only has ***
-        if self.password.get() == '***' or self.retype.get() == '***':
+        if self.password_entry.get() == '***' or self.retype_entry.get() == '***':
             message += '\nPassword is not hidden.'
 
         if message:
@@ -175,19 +214,6 @@ class Form:
         else:
             tkinter.messagebox.showinfo('SUCCESS', 'You have registered!')
 
-    # Function to handle placeholder behavior for Entry widgets
-    def on_entry_click(self, event, entry_widget):
-        if entry_widget.get() == entry_widget.placeholder:
-            entry_widget.delete(0, "end")
-            entry_widget.configure(fg='black')  # Change text color to black
-
-        # Bind the entry fields to the placeholder behavior function
-        self.email.bind("<FocusIn>", lambda event: on_entry_click(event, self.email))
-        self.password.bind("<FocusIn>", lambda event: on_entry_click(event, self.password))
-        self.retype.bind("<FocusIn>", lambda event: on_entry_click(event, self.retype))
-        self.first_name.bind("<FocusIn>", lambda event: on_entry_click(event, self.first_name))
-        self.last_name.bind("<FocusIn>", lambda event: on_entry_click(event, self.last_name))
-
-        
+    
 
 instance = Form()
